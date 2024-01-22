@@ -88,10 +88,7 @@ const Accordion = forwardRef(function (
 
   const onAccordionItemClick = useCallback(
     (index: number) => {
-      if (controlledIndex != undefined) {
-        onChange && onChange(index);
-        return;
-      }
+      onChange && onChange(index);
 
       setOpenPanels((prevOpenPanels) => {
         if (multiple) {
@@ -112,7 +109,7 @@ const Accordion = forwardRef(function (
         return prevOpenPanels;
       });
     },
-    [controlledIndex, setOpenPanels, onChange, multiple, collapsible]
+    [setOpenPanels, onChange, multiple, collapsible]
   );
 
   const id = useId();
