@@ -8,6 +8,7 @@ import {
   useCallback,
   useContext,
   useId,
+  useMemo,
   useRef,
 } from "react";
 import { useControlledState } from "../utils/useControlledState.ts";
@@ -114,12 +115,15 @@ const Accordion = forwardRef(function (
 
   const id = useId();
 
-  const context = {
-    openPanels: controlledIndex ? controlledIndex : openPanels,
-    onAccordionItemClick: readOnly ? noop : onAccordionItemClick,
-    readOnly,
-    accordionId: id,
-  };
+  const context = useMemo(
+    () => ({
+      openPanels: controlledIndex ? controlledIndex : openPanels,
+      onAccordionItemClick: readOnly ? noop : onAccordionItemClick,
+      readOnly,
+      accordionId: id,
+    }),
+    [onAccordionItemClick, readOnly, id, controlledIndex, openPanels]
+  );
 
   const descendantContext = useDescendants();
 
@@ -152,15 +156,18 @@ const AccordionItem = forwardRef(function (
   const panelId = makeId("panel", itemId);
   const buttonId = makeId("button", itemId);
 
-  const context = {
-    index,
-    state,
-    disabled,
-    itemId,
-    panelId,
-    buttonId,
-    buttonRef,
-  };
+  const context = useMemo(
+    () => ({
+      index,
+      state,
+      disabled,
+      itemId,
+      panelId,
+      buttonId,
+      buttonRef,
+    }),
+    [index, state, disabled, itemId, panelId, buttonId]
+  );
 
   return (
     <AccordionItemContext.Provider value={context}>
